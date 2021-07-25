@@ -34,6 +34,11 @@ server.on('request', (req, res) => {
             setErrorResponse(res, 500, 'unknown error');
         }
       }).pipe(res);
+
+      req.on('aborted', () => {
+        stream.destroy();
+      });
+
       break;
 
     default:
