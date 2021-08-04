@@ -7,19 +7,6 @@ module.exports.register = async (ctx, next) => {
   const email = ctx.request.body.email;
   const password = ctx.request.body.password;
 
-  const existingUser = await User.findOne({
-    email,
-  });
-  if (existingUser) {
-    ctx.status = 400;
-    ctx.body = {
-      errors: {
-        email: 'Такой email уже существует',
-      }
-    };
-    return;
-  }
-
   const verificationToken = uuid();
   const user = new User({email, displayName, verificationToken});
   await user.setPassword(password);
